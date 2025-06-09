@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Étienne Ruffieux</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<link rel="stylesheet" href="style.css">
+		<script type="importmap">
+		  {
+		    "imports": {
+		      "three": "./three.module.min.js",
+		      "three/addons/": "./jsm/"
+		    }
+		  }
+		</script>
+	</head>
+	<body>
+		<script type="x-shader/x-vertex" id="vertexshader">
+
+			attribute float scale;
+
+			void main() {
+
+				vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+
+				gl_PointSize = scale * ( 250.0 / - mvPosition.z );
+
+				gl_Position = projectionMatrix * mvPosition;
+
+			}
+
+		</script>
+
+		<script type="x-shader/x-fragment" id="fragmentshader">
+
+			uniform vec3 color;
+
+			void main() {
+
+				if ( length( gl_PointCoord - vec2( 0.5, 0.5 ) ) > 0.475 ) discard;
+
+				gl_FragColor = vec4( color, 1.0 );
+
+			}
+
+		</script>
+		<div id="threejs-container"></div>
+		<div id="slider-container">
+			<div id="slider-bar"></div>
+			<div id="slider-steps-container"></div>
+		</div>
+		<div id="text-content"></div>
+		<div id="menu-container">
+			<div id='load' class="menu-element">Load Image</div>
+		</div>
+		<script type="module" src="/js/Main.js"></script>
+	</body>
+</html>
